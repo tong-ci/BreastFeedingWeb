@@ -1,0 +1,48 @@
+package com.example.demo.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.example.demo.dao.BreastFeedingDao;
+
+@Repository
+public class BreastFeedingDaoImpl implements BreastFeedingDao {
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
+	@Override
+	public List<Map<String, Object>> getDayData(String time) {
+		String sql = "SELECT c.id, c.type, c.volume, c.time, ( timestampdiff(SECOND, ( SELECT e.time FROM breast_feeding e WHERE e.time < c.time and (e.type != 3 OR e.volume > 14) ORDER BY e.time DESC LIMIT 0, 1 ) ,c.time ) ) AS intervalTime FROM breast_feeding c  WHERE DATE_FORMAT(time,'%Y-%m-%d')='"+time+"' order by time";
+		return jdbcTemplate.queryForList(sql);
+	}
+
+	@Override
+	public Boolean insertIntoData(String type, String volume, String time) {
+		String sql = "insert into breast_feeding (type,volume,time) values ("+type+","+volume+",'"+time+"')";
+		return jdbcTemplate.update(sql) > 0 ? true : false;
+	}
+
+	@Override
+	public Map<String, Object> getIntervalTime() {
+		String sqlStr = "select timestampdiff(SECOND,( SELECT e.time FROM breast_feeding e WHERE (e.type != 3 OR e.volume > 15) ORDER BY e.time DESC LIMIT 0, 1 ),now()) as time";
+		return jdbcTemplate.queryForMap(sqlStr);
+	}
+
+	@Override
+	public List<Map<String, Object>> getTotalData() {
+		String sqlStr = "select count(*) as  number, SUM(volume) as volumes,substr(t.time,1,10) as time  from breast_feeding t where  t.time like '%' group by substr(t.time,1,10) desc";
+
+		return jdbcTemplate.queryForList(sqlStr);
+	}
+
+	@Override
+	public Boolean deleteDate(String id) {
+		String sqlStr = "Delete from breast_feeding where id = "+id+"";
+		return jdbcTemplate.update(sqlStr) > 0 ? true : false;
+	}
+
+}
