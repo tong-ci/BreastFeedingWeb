@@ -81,7 +81,7 @@ public class HelpUtils {
 			return "|     " + dateString + "     ";
 		} else {
 			return "|     00:00:00     ";
-		}
+		} 
 	}
 
 	private static String getIpString(String name) {// 225.225.225.225 25
