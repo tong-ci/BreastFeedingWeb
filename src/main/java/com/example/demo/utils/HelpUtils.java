@@ -14,21 +14,17 @@ public class HelpUtils {
 
 	public static String getTypeName(int type, int volume) {
 		if (type == 1) {
-			return "奶粉/" + volume + "ml";
+			return "奶粉/" + (volume==0?"未知":(volume + "ml"));
 		} else if (type == 2) {
-			if (volume == 0) {
-				return "母乳/未知";
-			} else {
-				return "母乳/" + volume + "ml";
-			}
+			return "母乳/" + (volume==0?"未知":(volume + "ml"));
 		} else if (type == 3) {
 			if (volume == 3) {
-				return "鱼肝油/" + volume + "ml";
+				return "鱼肝油/" +volume + "ml";
 			} else {
-				return "补钙/" + volume + "ml";
+				return "补钙/" + (volume==0?"未知":(volume + "ml"));
 			}
 		} else if (type == 4) {
-			return "喝水/" + volume + "ml";
+			return "喝水/" + (volume==0?"未知":(volume + "ml"));
 		}
 
 		return "";
@@ -36,16 +32,16 @@ public class HelpUtils {
 
 
 	public static long getNumberVisits(String name, HttpServletRequest request) {
-		long i = 1;
-		if (numberVisits.containsKey(name)) {
-			i = numberVisits.get(name) + 1;
-		}
-		numberVisits.put(name, i);
-		numberDates.put(name, new Date());
-		numberIps.put(name, IpUtil.getIpAddr(request));
-
-		System.out.print(getOutMsg());
-		return i;
+//		long i = 1;
+//		if (numberVisits.containsKey(name)) {
+//			i = numberVisits.get(name) + 1;
+//		}
+//		numberVisits.put(name, i);
+//		numberDates.put(name, new Date());
+//		numberIps.put(name, IpUtil.getIpAddr(request));
+//
+//		System.out.print(getOutMsg());
+		return 0;
 	}
 
 	private static String getOutMsg() {
@@ -103,8 +99,8 @@ public class HelpUtils {
 		if (numberVisits.containsKey(name)) {
 			num = numberVisits.get(name) + "";
 		}
-		buffer.append("|      " + num);
-		for (int i = 0; i < 19 - (num.length() + 12); i++) {
+		buffer.append("|    " + num);
+		for (int i = 0; i < 19 - (num.length() + 10); i++) {
 			buffer.append(" ");
 		}
 		buffer.append("|");

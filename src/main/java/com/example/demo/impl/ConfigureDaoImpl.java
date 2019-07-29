@@ -18,7 +18,7 @@ public class ConfigureDaoImpl implements ConfigureDao {
 	@Override
 	public List<ConfigureEntity> getAllData() {
 		String sql = "select * from configure";
-		return jdbcTemplate.query(sql, new BeanPropertyRowMapper(ConfigureEntity.class));
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<ConfigureEntity>(ConfigureEntity.class));
 	}
 
 }
