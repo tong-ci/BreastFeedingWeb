@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dao.BreastFeedingDao;
 import com.example.demo.entity.ReturnMsg;
 import com.example.demo.utils.HelpUtils;
+import com.mysql.cj.util.StringUtils;
 
 @RestController
 @RequestMapping("/breastFeeding")
@@ -23,10 +24,12 @@ public class BreastFeedingController {
     private BreastFeedingDao breastFeedingDao;
     
     @RequestMapping("/getDayData")
-    public ReturnMsg getDayData(@RequestParam(value="time") String time,HttpServletRequest request) {
-    	
+    public ReturnMsg getDayData(@RequestParam(value="time") String time,@RequestParam(value="deviceId") String deviceId,HttpServletRequest request) {
+    	if (StringUtils.isNullOrEmpty(deviceId)) {
+    		return new ReturnMsg(401, "deviceId is no");
+		}
     	try {
-			List<Map<String, Object>> list = breastFeedingDao.getDayData(time);
+			List<Map<String, Object>> list = breastFeedingDao.getDayData(time,deviceId);
 			for (int i = 0; i < list.size(); i++) {
 				Map<String, Object> map = list.get(i);
 				map.put("typeName", HelpUtils.getTypeName((int)map.get("type"),(int)map.get("volume")));
@@ -42,10 +45,12 @@ public class BreastFeedingController {
     }
     
     @RequestMapping(value= "/insertIntoData",method = RequestMethod.POST)
-    public ReturnMsg insertIntoData(@RequestParam(value="type") String type,@RequestParam(value="volume")  String volume,@RequestParam(value="time")  String time,HttpServletRequest request) {
-    	
+    public ReturnMsg insertIntoData(@RequestParam(value="type") String type,@RequestParam(value="volume")  String volume,@RequestParam(value="time")  String time,@RequestParam(value="deviceId") String deviceId,HttpServletRequest request) {
+    	if (StringUtils.isNullOrEmpty(deviceId)) {
+    		return new ReturnMsg(401, "deviceId is no");
+		}
     	try {
-			Boolean isOk = breastFeedingDao.insertIntoData(type,volume,time);
+			Boolean isOk = breastFeedingDao.insertIntoData(type,volume,time,deviceId);
 			if (isOk) {
 				HelpUtils.getNumberVisits("insertIntoData", request);
 				return new ReturnMsg(200, "Success");
@@ -61,11 +66,13 @@ public class BreastFeedingController {
     }
     
     @RequestMapping("/getIntervalTime")
-    public ReturnMsg getIntervalTime(HttpServletRequest request) {
-    	
+    public ReturnMsg getIntervalTime(@RequestParam(value="deviceId") String deviceId,HttpServletRequest request) {
+    	if (StringUtils.isNullOrEmpty(deviceId)) {
+    		return new ReturnMsg(401, "deviceId is no");
+		}
     	try {
-			Map<String, Object> list = breastFeedingDao.getIntervalTime();
-			List<Map<String, Object>>  totaList = breastFeedingDao.getTotalData();
+			Map<String, Object> list = breastFeedingDao.getIntervalTime(deviceId);
+			List<Map<String, Object>>  totaList = breastFeedingDao.getTotalData(deviceId);
 			if (totaList.size()>0) {
 				list.put("totalvolume", totaList.get(0).get("volumes"));
 			}
@@ -79,10 +86,12 @@ public class BreastFeedingController {
     }
     
     @RequestMapping("/getTotalData")
-    public ReturnMsg getTotalData(HttpServletRequest request) {
-    	
+    public ReturnMsg getTotalData(@RequestParam(value="deviceId") String deviceId,HttpServletRequest request) {
+    	if (StringUtils.isNullOrEmpty(deviceId)) {
+    		return new ReturnMsg(401, "deviceId is no");
+		}
     	try {
-			List<Map<String, Object>> list = breastFeedingDao.getTotalData();
+			List<Map<String, Object>> list = breastFeedingDao.getTotalData(deviceId);
 			HelpUtils.getNumberVisits("getTotalData", request);
 			return new ReturnMsg(200, list);
 		} catch (Exception e) {

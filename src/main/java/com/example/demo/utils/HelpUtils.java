@@ -25,6 +25,8 @@ public class HelpUtils {
 			}
 		} else if (type == 4) {
 			return "喝水/" + (volume==0?"未知":(volume + "ml"));
+		}else if(type == 5) {
+			return "益生菌/" + (volume==0?"未知":(volume + "ml"));
 		}
 
 		return "";
