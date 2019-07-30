@@ -24,9 +24,9 @@ public class ConfigureDaoImpl implements ConfigureDao {
 
 	@Override
 	public int deviceIsExist(String deviceId) {
-		String sqlStr = "select * from device WHERE device_id ="+deviceId;
+		String sqlStr = "select * from device WHERE device_id ="+deviceId +"and available = 1";
 		List<Map<String, Object>> list= jdbcTemplate.queryForList(sqlStr);
-		if (list.size()<0) {
+		if (list.size()<=0) {
 			return 0;
 		}else {
 			return (int)list.get(0).get("baby_id");

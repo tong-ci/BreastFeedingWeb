@@ -17,7 +17,7 @@ public class AmountDaoImpl implements AmountDao {
 
 	@Override
 	public List<AmountEntity> getAllData() {
-		String sql = "SELECT * FROM amount a WHERE a.show = 0";
+		String sql = "SELECT * FROM amount a WHERE a.show = 1";
 		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<AmountEntity>(AmountEntity.class));
 	}
 

@@ -22,7 +22,7 @@ public class BreastFeedingDaoImpl implements BreastFeedingDao {
 
 	@Override
 	public Boolean insertIntoData(String type, String volume, String time,String deviceId) {
-		String sql = "insert into breast_feeding (type,volume,time,baby_id) values ("+type+","+volume+",'"+time+"',(SELECT baby_id FROM device WHERE device_id = '"+deviceId+"'))";
+		String sql = "insert into breast_feeding (type,volume,time,baby_id,creater_id) values ("+type+","+volume+",'"+time+"',(SELECT baby_id FROM device WHERE device_id = '"+deviceId+"'),(SELECT id FROM device WHERE device_id = '"+deviceId+"'))";
 		return jdbcTemplate.update(sql) > 0 ? true : false;
 	}
 

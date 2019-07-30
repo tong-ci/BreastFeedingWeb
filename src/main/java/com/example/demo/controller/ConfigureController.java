@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.example.demo.dao.ConfigureDao;
 import com.example.demo.entity.ConfigureEntity;
 import com.example.demo.entity.ReturnMsg;
@@ -38,10 +37,13 @@ public class ConfigureController {
     public String deviceIsExist(@RequestParam(value="deviceId") String deviceId,HttpServletRequest request){
         try {
         	int is = ConfigureDao.deviceIsExist(deviceId);
+        	if (is==0) {
+				System.out.println("新设备访问 deviceId="+deviceId);
+			}
         	HelpUtils.getNumberVisits("deviceIsExist", request);
         	 return new ReturnMsg(200, is).toString();
         }catch (Exception e) {
-        	System.out.println("访问 deviceIsExist 失败 错误信息： " + e.toString());
+        	System.out.println("访问 deviceIsExist 失败 deviceId="+deviceId+" 错误信息： " + e.toString());
 			return new ReturnMsg(500, "server error").toString();
 		}
     }
