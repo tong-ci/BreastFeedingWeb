@@ -1,8 +1,10 @@
 package com.example.demo.utils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,25 +13,35 @@ public class HelpUtils {
 	private static Map<String, Long> numberVisits = new HashMap<String, Long>();
 	private static Map<String, Date> numberDates = new HashMap<String, Date>();
 	private static Map<String, String> numberIps = new HashMap<String, String>();
+	
+	public static Map<String, String> typeMaps = new HashMap<String,String>();
+	
 
 	public static String getTypeName(int type, int volume) {
-		if (type == 1) {
-			return "奶粉/" + (volume==0?"未知":(volume + "ml"));
-		} else if (type == 2) {
-			return "母乳/" + (volume==0?"未知":(volume + "ml"));
-		} else if (type == 3) {
-			if (volume == 3) {
+		if (typeMaps.containsKey(type+"")) {
+			if (volume == 3 && type == 3) {
 				return "鱼肝油/" +volume + "ml";
-			} else {
-				return "补钙/" + (volume==0?"未知":(volume + "ml"));
+			}else {
+				return typeMaps.get(type+"")+"/" + (volume==0?"未知":(volume + "ml"));
 			}
-		} else if (type == 4) {
-			return "喝水/" + (volume==0?"未知":(volume + "ml"));
-		}else if(type == 5) {
-			return "益生菌/" + (volume==0?"未知":(volume + "ml"));
+		}else {
+			if (type == 1) {
+				return "奶粉/" + (volume==0?"未知":(volume + "ml"));
+			} else if (type == 2) {
+				return "母乳/" + (volume==0?"未知":(volume + "ml"));
+			} else if (type == 3) {
+				if (volume == 3) {
+					return "鱼肝油/" +volume + "ml";
+				} else {
+					return "补钙/" + (volume==0?"未知":(volume + "ml"));
+				}
+			} else if (type == 4) {
+				return "喝水/" + (volume==0?"未知":(volume + "ml"));
+			}else if(type == 5) {
+				return "益生菌/" + (volume==0?"未知":(volume + "ml"));
+			}
+			return "";
 		}
-
-		return "";
 	}
 
 
@@ -121,6 +133,13 @@ public class HelpUtils {
 		    .waitFor(); // 清屏命
 		} catch (Exception exception) {
 			// Handle exception.
+		}
+	}
+	
+	public static void setTypelList(List<Map<String, Object>> typelList) {
+		if (typelList == null) return;
+		for (Map<String, Object> map:typelList) {
+			typeMaps.put((String)map.get("id"), (String)map.get("name"));
 		}
 	}
 

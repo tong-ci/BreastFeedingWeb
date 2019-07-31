@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,4 +32,18 @@ public class AmountController {
 			return new ReturnMsg(500, "server error").toString();
 		}
     }
+    
+    @RequestMapping("/getTypeAllData")
+    public String getTypeAllData(HttpServletRequest request){
+        try {
+        	List<Map<String, Object>> list = amountDao.getTypeAllData();
+        	HelpUtils.setTypelList(list);
+        	HelpUtils.getNumberVisits("getTypeAllData", request);
+        	 return new ReturnMsg(200, list).toString();
+        }catch (Exception e) {
+        	System.out.println("访问 getTypeAllData 失败 错误信息： " + e.toString());
+			return new ReturnMsg(500, "server error").toString();
+		}
+    }
+    
 }
