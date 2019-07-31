@@ -14,15 +14,15 @@ public class HelpUtils {
 	private static Map<String, Date> numberDates = new HashMap<String, Date>();
 	private static Map<String, String> numberIps = new HashMap<String, String>();
 	
-	public static Map<String, String> typeMaps = new HashMap<String,String>();
+	public static Map<Integer, String> typeMaps = new HashMap<Integer,String>();
 	
 
 	public static String getTypeName(int type, int volume) {
-		if (typeMaps.containsKey(type+"")) {
+		if (typeMaps.containsKey(type)) {
 			if (volume == 3 && type == 3) {
 				return "鱼肝油/" +volume + "ml";
 			}else {
-				return typeMaps.get(type+"")+"/" + (volume==0?"未知":(volume + "ml"));
+				return typeMaps.get(type)+"/" + (volume==0?"未知":(volume + "ml"));
 			}
 		}else {
 			if (type == 1) {
@@ -139,7 +139,7 @@ public class HelpUtils {
 	public static void setTypelList(List<Map<String, Object>> typelList) {
 		if (typelList == null) return;
 		for (Map<String, Object> map:typelList) {
-			typeMaps.put((String)map.get("id"), (String)map.get("name"));
+			typeMaps.put((Integer)map.get("id"), (String)map.get("name"));
 		}
 	}
 
