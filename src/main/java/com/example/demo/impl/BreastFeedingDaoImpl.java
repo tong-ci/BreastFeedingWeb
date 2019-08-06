@@ -16,7 +16,7 @@ public class BreastFeedingDaoImpl implements BreastFeedingDao {
 
 	@Override
 	public List<Map<String, Object>> getDayData(String time,String deviceId) {
-		String sql = "SELECT c.id, c.type, c.volume, c.time, ( timestampdiff(SECOND, ( SELECT e.time FROM breast_feeding e LEFT JOIN device e2 on e.baby_id = e2.baby_id WHERE e2.device_id = '"+deviceId+"' and e.time < c.time and (e.type != 3 OR e.volume > 14) ORDER BY e.time DESC LIMIT 0, 1 ) ,c.time ) ) AS intervalTime FROM breast_feeding c LEFT JOIN device c2 on c.baby_id = c2.baby_id WHERE c2.device_id = '"+deviceId+"' and DATE_FORMAT(time,'%Y-%m-%d')='"+time+"' order by time";
+		String sql = "SELECT c.id, c.type, c.volume, c.time, ( timestampdiff(SECOND, ( SELECT e.time FROM breast_feeding e LEFT JOIN device e2 on e.baby_id = e2.baby_id WHERE e2.device_id = '"+deviceId+"' and e.time < c.time and (e.type = 1 OR e.type = 2) ORDER BY e.time DESC LIMIT 0, 1 ) ,c.time ) ) AS intervalTime FROM breast_feeding c LEFT JOIN device c2 on c.baby_id = c2.baby_id WHERE c2.device_id = '"+deviceId+"' and DATE_FORMAT(time,'%Y-%m-%d')='"+time+"' order by time";
 		return jdbcTemplate.queryForList(sql);
 	}
 
@@ -28,7 +28,7 @@ public class BreastFeedingDaoImpl implements BreastFeedingDao {
 
 	@Override
 	public Map<String, Object> getIntervalTime(String deviceId) {
-		String sqlStr = "select timestampdiff(SECOND,( SELECT e.time FROM breast_feeding e LEFT JOIN device e2 on e.baby_id = e2.baby_id WHERE e2.device_id = '"+deviceId+"' and (e.type != 3 OR e.volume > 15) ORDER BY e.time DESC LIMIT 0, 1 ),now()) as time";
+		String sqlStr = "select timestampdiff(SECOND,( SELECT e.time FROM breast_feeding e LEFT JOIN device e2 on e.baby_id = e2.baby_id WHERE e2.device_id = '"+deviceId+"' and (e.type = 1 OR e.type = 2) ORDER BY e.time DESC LIMIT 0, 1 ),now()) as time";
 		return jdbcTemplate.queryForMap(sqlStr);
 	}
 

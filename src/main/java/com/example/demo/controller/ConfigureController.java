@@ -22,10 +22,22 @@ public class ConfigureController {
     private ConfigureDao ConfigureDao;
     
     @RequestMapping("/getAll")
-    public String getThreeForMessage(HttpServletRequest request){
+    public String getThreeForMessage(@RequestParam(value="deviceId") String deviceId,HttpServletRequest request){
         try {
         	List<ConfigureEntity> list = ConfigureDao.getAllData();
         	HelpUtils.getNumberVisits("configureAll", request);
+        	if ("865883040575139".equals(deviceId) || "864688033424919".equals(deviceId)) {
+				
+			}else {
+				int pos = -1;
+				for (int i = 0; i < list.size(); i++) {
+					if ("surprised".equals(list.get(i).getKey())) {
+						pos = i;
+						break;
+					}
+				}
+				list.remove(pos);
+			}
         	 return new ReturnMsg(200, list).toString();
         }catch (Exception e) {
         	System.out.println("访问 configureAll 失败 错误信息： " + e.toString());

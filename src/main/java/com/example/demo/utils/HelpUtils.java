@@ -43,6 +43,48 @@ public class HelpUtils {
 			return "";
 		}
 	}
+	
+	public static String getTypeName(int type, int volume,int position) {
+		switch (position) {
+		case 0:
+			return "快去";
+		case 1:
+			return "找找";
+		case 2:
+			return "看";
+		case 3:
+			return "说不定";
+		case 4:
+			return "家里有";
+		case 5:
+			return "惊喜哦";
+
+		}
+		if (typeMaps.containsKey(type)) {
+			if (volume == 3 && type == 3) {
+				return "鱼肝油/" +volume + "ml";
+			}else {
+				return typeMaps.get(type)+"/" + (volume==0?"未知":(volume + "ml"));
+			}
+		}else {
+			if (type == 1) {
+				return "奶粉/" + (volume==0?"未知":(volume + "ml"));
+			} else if (type == 2) {
+				return "母乳/" + (volume==0?"未知":(volume + "ml"));
+			} else if (type == 3) {
+				if (volume == 3) {
+					return "鱼肝油/" +volume + "ml";
+				} else {
+					return "补钙/" + (volume==0?"未知":(volume + "ml"));
+				}
+			} else if (type == 4) {
+				return "喝水/" + (volume==0?"未知":(volume + "ml"));
+			}else if(type == 5) {
+				return "益生菌/" + (volume==0?"未知":(volume + "ml"));
+			}
+			return "";
+		}
+	}
 
 
 	public static long getNumberVisits(String name, HttpServletRequest request) {
