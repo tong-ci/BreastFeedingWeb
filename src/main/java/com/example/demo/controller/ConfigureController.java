@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,10 @@ public class ConfigureController {
     
     @RequestMapping("/getAll")
     public String getThreeForMessage(@RequestParam(value="deviceId") String deviceId,HttpServletRequest request){
+    	if(StringUtils.isEmpty(deviceId)) {
+    		System.out.println("访问 configureAll 失败 错误信息： deviceId为空");
+    		return new ReturnMsg(401, "deviceId is null").toString();
+    	}
         try {
         	List<ConfigureEntity> list = ConfigureDao.getAllData();
         	HelpUtils.getNumberVisits("configureAll", request);
@@ -47,6 +52,10 @@ public class ConfigureController {
     
     @RequestMapping("/deviceIsExist")
     public String deviceIsExist(@RequestParam(value="deviceId") String deviceId,HttpServletRequest request){
+    	if(StringUtils.isEmpty(deviceId)) {
+    		System.out.println("访问 deviceIsExist 失败 错误信息： deviceId为空");
+    		return new ReturnMsg(401, "deviceId is null").toString();
+    	}
         try {
         	int is = ConfigureDao.deviceIsExist(deviceId);
         	if (is==0) {

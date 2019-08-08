@@ -26,9 +26,10 @@ public class BreastFeedingController {
 	@RequestMapping("/getDayData")
 	public ReturnMsg getDayData(@RequestParam(value = "time") String time,
 			@RequestParam(value = "deviceId") String deviceId, HttpServletRequest request) {
-		if (StringUtils.isNullOrEmpty(deviceId)) {
-			return new ReturnMsg(401, "deviceId is no");
-		}
+    	if(StringUtils.isNullOrEmpty(deviceId)) {
+    		System.out.println("访问 insertIntoData 失败 错误信息： deviceId为空");
+    		return new ReturnMsg(401, "deviceId is null");
+    	}
 		try {
 			List<Map<String, Object>> list = breastFeedingDao.getDayData(time, deviceId);
 			for (int i = 0; i < list.size(); i++) {
@@ -49,9 +50,10 @@ public class BreastFeedingController {
 	public ReturnMsg insertIntoData(@RequestParam(value = "type") String type,
 			@RequestParam(value = "volume") String volume, @RequestParam(value = "time") String time,
 			@RequestParam(value = "deviceId") String deviceId, HttpServletRequest request) {
-		if (StringUtils.isNullOrEmpty(deviceId)) {
-			return new ReturnMsg(401, "deviceId is no");
-		}
+    	if(StringUtils.isNullOrEmpty(deviceId)) {
+    		System.out.println("访问 insertIntoData 失败 错误信息： deviceId为空");
+    		return new ReturnMsg(401, "deviceId is null");
+    	}
 		try {
 			Boolean isOk = breastFeedingDao.insertIntoData(type, volume, time, deviceId);
 			if (isOk) {
@@ -70,9 +72,10 @@ public class BreastFeedingController {
 
 	@RequestMapping("/getIntervalTime")
 	public ReturnMsg getIntervalTime(@RequestParam(value = "deviceId") String deviceId, HttpServletRequest request) {
-		if (StringUtils.isNullOrEmpty(deviceId)) {
-			return new ReturnMsg(401, "deviceId is no");
-		}
+    	if(StringUtils.isNullOrEmpty(deviceId)) {
+    		System.out.println("访问 getIntervalTime 失败 错误信息： deviceId为空");
+    		return new ReturnMsg(401, "deviceId is null");
+    	}
 		try {
 			Map<String, Object> list = breastFeedingDao.getIntervalTime(deviceId);
 			List<Map<String, Object>> totaList = breastFeedingDao.getTotalData(deviceId);
@@ -90,9 +93,10 @@ public class BreastFeedingController {
 
 	@RequestMapping("/getTotalData")
 	public ReturnMsg getTotalData(@RequestParam(value = "deviceId") String deviceId, HttpServletRequest request) {
-		if (StringUtils.isNullOrEmpty(deviceId)) {
-			return new ReturnMsg(401, "deviceId is no");
-		}
+    	if(StringUtils.isNullOrEmpty(deviceId)) {
+    		System.out.println("访问 getTotalData 失败 错误信息： deviceId为空");
+    		return new ReturnMsg(401, "deviceId is null");
+    	}
 		try {
 			List<Map<String, Object>> list = breastFeedingDao.getTotalData(deviceId);
 			HelpUtils.getNumberVisits("getTotalData", request);
