@@ -1,10 +1,13 @@
 package com.example.demo.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.validator.internal.util.privilegedactions.NewInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -77,7 +80,9 @@ public class BreastFeedingController {
 			Map<String, Object> list = breastFeedingDao.getIntervalTime(deviceId);
 			List<Map<String, Object>> totaList = breastFeedingDao.getTotalData(deviceId);
 			if (totaList.size() > 0) {
-				list.put("totalvolume", totaList.get(0).get("volumes"));
+				String listTime = (String)totaList.get(0).get("time");
+				String timeString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+				list.put("totalvolume",timeString.equals(listTime)?totaList.get(0).get("volumes"):"0");
 			}
 			HelpUtils.getNumberVisits("getIntervalTime", request);
 			return new ReturnMsg(200, list);
