@@ -18,32 +18,22 @@ import com.example.demo.utils.HelpUtils;
 @RequestMapping("/amount")
 public class AmountController {
 
-    @Autowired
-    private AmountDao amountDao;
-    
-    @RequestMapping("/getAll")
-    public String getThreeForMessage(HttpServletRequest request){
-        try {
-        	List<AmountEntity> list = amountDao.getAllData();
-        	HelpUtils.getNumberVisits("amountAll", request);
-        	 return new ReturnMsg(200, list).toString();
-        }catch (Exception e) {
-        	System.out.println("访问 amountgetAll 失败 错误信息： " + e.toString());
-			return new ReturnMsg(500, "server error").toString();
-		}
-    }
-    
-    @RequestMapping("/getTypeAllData")
-    public String getTypeAllData(HttpServletRequest request){
-        try {
-        	List<Map<String, Object>> list = amountDao.getTypeAllData();
-        	HelpUtils.setTypelList(list);
-        	HelpUtils.getNumberVisits("getTypeAllData", request);
-        	 return new ReturnMsg(200, list).toString();
-        }catch (Exception e) {
-        	System.out.println("访问 getTypeAllData 失败 错误信息： " + e.toString());
-			return new ReturnMsg(500, "server error").toString();
-		}
-    }
-    
+	@Autowired
+	private AmountDao amountDao;
+
+	@RequestMapping("/getAll")
+	public String getThreeForMessage(HttpServletRequest request) {
+		List<AmountEntity> list = amountDao.getAllData();
+		HelpUtils.getNumberVisits("amountAll", request);
+		return new ReturnMsg(200, list).toString();
+	}
+
+	@RequestMapping("/getTypeAllData")
+	public String getTypeAllData(HttpServletRequest request) {
+		List<Map<String, Object>> list = amountDao.getTypeAllData();
+		HelpUtils.setTypelList(list);
+		HelpUtils.getNumberVisits("getTypeAllData", request);
+		return new ReturnMsg(200, list).toString();
+	}
+
 }
