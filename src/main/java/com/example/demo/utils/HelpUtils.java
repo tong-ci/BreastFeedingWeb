@@ -1,7 +1,6 @@
 package com.example.demo.utils;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -100,6 +99,7 @@ public class HelpUtils {
 		return 0;
 	}
 
+	@SuppressWarnings("unused")
 	private static String getOutMsg() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(" ------------------------------------------------------------------------------ ");
