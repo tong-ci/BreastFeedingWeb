@@ -15,20 +15,20 @@ import com.example.demo.entity.ReturnMsg;
 import com.example.demo.utils.HelpUtils;
 
 @RestController
-@RequestMapping("/amount")
+@RequestMapping("amount")
 public class AmountController {
 
 	@Autowired
 	private AmountDao amountDao;
 
-	@RequestMapping("/getAll")
+	@RequestMapping("getAll")
 	public String getThreeForMessage(HttpServletRequest request) {
 		List<AmountEntity> list = amountDao.getAllData();
 		HelpUtils.getNumberVisits("amountAll", request);
 		return new ReturnMsg(200, list).toString();
 	}
 
-	@RequestMapping("/getTypeAllData")
+	@RequestMapping("getTypeAllData")
 	public String getTypeAllData(HttpServletRequest request) {
 		List<Map<String, Object>> list = amountDao.getTypeAllData();
 		HelpUtils.setTypelList(list);

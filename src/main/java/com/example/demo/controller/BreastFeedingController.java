@@ -20,15 +20,14 @@ import com.example.demo.utils.HelpUtils;
 import com.mysql.cj.util.StringUtils;
 
 @RestController
-@RequestMapping("/breastFeeding")
+@RequestMapping("breastFeeding")
 public class BreastFeedingController {
 
 	@Autowired
 	private BreastFeedingDao breastFeedingDao;
 
-	@RequestMapping("/getDayData")
-	public ReturnMsg getDayData(@RequestParam(value = "time") String time,
-			@RequestParam(value = "deviceId") String deviceId, HttpServletRequest request) {
+	@RequestMapping("getDayData")
+	public ReturnMsg getDayData(String time,String deviceId, HttpServletRequest request) {
 		if (StringUtils.isNullOrEmpty(deviceId)) {
 			return new ReturnMsg(401, "deviceId is no");
 		}
@@ -42,10 +41,8 @@ public class BreastFeedingController {
 		return new ReturnMsg(200, list);
 	}
 
-	@RequestMapping(value = "/insertIntoData", method = RequestMethod.POST)
-	public ReturnMsg insertIntoData(@RequestParam(value = "type") String type,
-			@RequestParam(value = "volume") String volume, @RequestParam(value = "time") String time,
-			@RequestParam(value = "deviceId") String deviceId, HttpServletRequest request) {
+	@RequestMapping(value = "insertIntoData", method = RequestMethod.POST)
+	public ReturnMsg insertIntoData(String type, String volume,String time,String deviceId, HttpServletRequest request) {
 		if (StringUtils.isNullOrEmpty(deviceId)) {
 			return new ReturnMsg(401, "deviceId is no");
 		}
@@ -59,8 +56,8 @@ public class BreastFeedingController {
 		}
 	}
 
-	@RequestMapping("/getIntervalTime")
-	public ReturnMsg getIntervalTime(@RequestParam(value = "deviceId") String deviceId, HttpServletRequest request) {
+	@RequestMapping("getIntervalTime")
+	public ReturnMsg getIntervalTime(String deviceId, HttpServletRequest request) {
 		if (StringUtils.isNullOrEmpty(deviceId)) {
 			return new ReturnMsg(401, "deviceId is no");
 		}
@@ -75,8 +72,8 @@ public class BreastFeedingController {
 		return new ReturnMsg(200, list);
 	}
 
-	@RequestMapping("/getTotalData")
-	public ReturnMsg getTotalData(@RequestParam(value = "deviceId") String deviceId, HttpServletRequest request) {
+	@RequestMapping("getTotalData")
+	public ReturnMsg getTotalData(String deviceId, HttpServletRequest request) {
 		if (StringUtils.isNullOrEmpty(deviceId)) {
 			return new ReturnMsg(401, "deviceId is no");
 		}
@@ -86,8 +83,8 @@ public class BreastFeedingController {
 
 	}
 
-	@RequestMapping(value = "/deleteDate", method = RequestMethod.GET)
-	public ReturnMsg deleteDate(@RequestParam(value = "id") String id, HttpServletRequest request) {
+	@RequestMapping(value = "deleteDate", method = RequestMethod.GET)
+	public ReturnMsg deleteDate(String id, HttpServletRequest request) {
 		Boolean isOk = breastFeedingDao.deleteDate(id);
 		if (isOk) {
 			HelpUtils.getNumberVisits("deleteDate", request);

@@ -15,14 +15,14 @@ import com.example.demo.entity.ReturnMsg;
 import com.example.demo.utils.HelpUtils;
 
 @RestController
-@RequestMapping("/configure")
+@RequestMapping("configure")
 public class ConfigureController {
 
 	@Autowired
 	private ConfigureDao ConfigureDao;
 
-	@RequestMapping("/getAll")
-	public String getThreeForMessage(@RequestParam(value = "deviceId") String deviceId, HttpServletRequest request) {
+	@RequestMapping("getAll")
+	public String getThreeForMessage(String deviceId, HttpServletRequest request) {
 		List<ConfigureEntity> list = ConfigureDao.getAllData();
 		HelpUtils.getNumberVisits("configureAll", request);
 		if ("865883040575139".equals(deviceId) || "864688033424919".equals(deviceId)) {
@@ -40,8 +40,8 @@ public class ConfigureController {
 		return new ReturnMsg(200, list).toString();
 	}
 
-	@RequestMapping("/deviceIsExist")
-	public String deviceIsExist(@RequestParam(value = "deviceId") String deviceId, HttpServletRequest request) {
+	@RequestMapping("deviceIsExist")
+	public String deviceIsExist(String deviceId, HttpServletRequest request) {
 		int is = ConfigureDao.deviceIsExist(deviceId);
 		if (is == 0) {
 			System.out.println("新设备访问 deviceId=" + deviceId);
